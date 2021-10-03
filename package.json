@@ -1,0 +1,21 @@
+{
+  "name": "naxin-system",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.22.0",
+    "element-plus": "^1.1.0-beta.19",
+    "less": "^4.1.1",
+    "vue": "^3.2.16",
+    "vue-router": "^4.0.11",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.9.2",
+    "vite": "^2.6.0"
+  }
+}
