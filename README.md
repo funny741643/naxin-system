@@ -14,7 +14,10 @@ npm run dev
 * views: 页面
 * components: 自定义组件
 
+## 拉取最新的代码
+* git pull
+
 ## 提交代码
-git add .
-git commit -m ""
-git push
+* git add .
+* git commit -m ""
+* git push
