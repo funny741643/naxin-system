@@ -40,7 +40,7 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <router-view/>
+          <router-view />
         </el-main>
       </el-container>
     </el-container>
@@ -48,8 +48,9 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import axios from "../utils/request";
 // import { routes } from "../router";
 export default {
   setup() {
@@ -89,6 +90,16 @@ export default {
 
     const onRoutes = computed(() => {
       return route.path;
+    });
+
+    const testRequest = () => {
+      axios.get('/api/users').then(res => {
+        console.log(res);
+      })
+    }
+
+    onMounted(() => {
+      testRequest()
     });
 
     return {
