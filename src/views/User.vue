@@ -1,3 +1,3 @@
 <template>
-    我是user
+   <div>我是user</div>
 </template>
