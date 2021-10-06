@@ -35,7 +35,7 @@ export default {
       const accountRef = ref()
     const loginClick = ()=>{
         console.log('登录')
-        accountRef.value?.loginAction(isKeepPassword.value)
+        accountRef.value.loginAction(isKeepPassword.value)
     }
       return{
           isKeepPassword,

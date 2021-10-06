@@ -22,11 +22,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.interceptors.response.use(
     res => {
         if (typeof res.data !== 'object') {
-            Toast.fail('服务端异常！')
             return Promise.reject(res)
         }
-        if (res.data.resultCode != 200) {
-            if (res.data.message) Toast.fail(res.data.message)
+        if (res.status != 200) {
             return Promise.reject(res.data)
         }
 

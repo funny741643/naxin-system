@@ -21,12 +21,12 @@
                     <span>{{ item.title }}</span>
                   </template>
                    <template v-for="subItem in item.subs">
-                    <!-- <div> -->
+                    <div>
                       <el-menu-item :index="subItem.index" :key="subItem.index">
                         <i :class="subItem.icon"></i>
                         <template #title>{{ subItem.title }}</template>
                       </el-menu-item>
-                    <!-- </div> -->
+                    </div>
                   </template>
                 </el-sub-menu>
               </template>

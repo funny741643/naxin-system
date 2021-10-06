@@ -19,7 +19,7 @@ import {useStore} from 'vuex'
 
 export default {
     setup(){
-        const store = useStore
+        const store = useStore()
         const account = reactive({
             name: localCache.getCache('name')?localCache.getCache('name'):'',
             password: localCache.getCache('password')?localCache.getCache('password'):''
@@ -50,6 +50,7 @@ export default {
             console.log('account开始登录')
             formRef.value.validate((valid)=>{
                 if(valid){
+                    console.log('store.state',store)
                     // 记住密码
                     if(isKeepPassword){
                         // 本地缓存
@@ -60,7 +61,7 @@ export default {
                         localCache.delate('password')
                     }
                     // 登录验证
-                    store.dispatch('login/accoutLoginAction',{...account})
+                    store.dispatch('accoutLoginAction',{...account})
                     
                 }
             })

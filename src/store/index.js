@@ -1,10 +1,11 @@
 import {createStore} from 'vuex'
-import login from './login/login'
+import login from './login/login.js'
+console.log('login', login)
 const store = createStore({
     state:()=>{
         return {
-           name:'',
-           password:''
+           name:'aaa',
+           password:'1111'
         }
     },
     mutations:{},

@@ -31,7 +31,7 @@ const routes = [
                 component: () => import('../views/interview1.vue'),
                 meta: {
                     icon: 'el-icon-location',
-                    title: '一轮面试',
+                    title: '一面',
                     parent: '面试管理'
                 }
             },
@@ -41,7 +41,7 @@ const routes = [
                 component: () => import('../views/interview2.vue'),
                 meta: {
                     icon: 'el-icon-location',
-                    title: '二轮面试',
+                    title: '二面',
                     parent: '面试管理'
                 }
             },
@@ -51,7 +51,7 @@ const routes = [
                 component: () => import('../views/interview3.vue'),
                 meta: {
                     icon: 'el-icon-location',
-                    title: '三轮面试',
+                    title: '三面',
                     parent: '面试管理'
                 }
             },
