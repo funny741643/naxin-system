@@ -1,7 +1,24 @@
 <template>
   <div id="app-wrapper">
     <el-container>
-      <el-header class="layout-header">Acat纳新系统</el-header>
+      <el-header class="layout-header">
+        <div>Acat纳新系统</div>
+        <div>
+          <el-dropdown>
+            <div class="el-dropdown-link">
+              <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="">
+              <div>{{name}}</div>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>去授权</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-circle-close" @click="backlogin">退出登录</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+      </el-header>
       <el-container class="layout-body">
         <el-aside width="200px" class="layout-sideBar">
           <el-menu
@@ -20,7 +37,7 @@
                     <i :class="item.icon"></i>
                     <span>{{ item.title }}</span>
                   </template>
-                   <template v-for="subItem in item.subs">
+                  <template v-for="subItem in item.subs">
                     <div>
                       <el-menu-item :index="subItem.index" :key="subItem.index">
                         <i :class="subItem.icon"></i>
@@ -51,6 +68,8 @@
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import axios from "../utils/request";
+import router from "../router"
+import localCache from "../utils/cache";
 // import { routes } from "../router";
 export default {
   setup() {
@@ -87,24 +106,31 @@ export default {
     ];
 
     const route = useRoute();
+    const name = localCache.getCache("name");
+    const backlogin = ()=>{
+      console.log(route)
+      router.replace('/login')
+    }
 
     const onRoutes = computed(() => {
       return route.path;
     });
 
     const testRequest = () => {
-      axios.get('/api/users').then(res => {
+      axios.get("/api/users").then((res) => {
         console.log(res);
-      })
-    }
+      });
+    };
 
     onMounted(() => {
-      testRequest()
+      testRequest();
     });
 
     return {
       items,
+      name,
       onRoutes,
+      backlogin
     };
   },
 };
@@ -112,12 +138,30 @@ export default {
 
 <style lang="less" scoped>
 .layout-header {
-  height: 50px;
-  line-height: 50px;
+  display: flex;
+  justify-content: space-between;
   text-align: center;
-  background-color: #545c64;
+  height: 50px;
+  padding: 0 50px;
+  line-height: 50px;
+  background-color: #4c5768;
+  font-size: 20px;
+  font-weight: bolder;
   color: #fff;
+  .el-dropdown-link {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color:#fff;
+    font-size: 13px;
+    >img{
+      height: 26px;
+      width: 26px;
+    }
+  }
 }
+
 .layout-body {
   width: 100%;
   min-height: calc(100vh - 50px);

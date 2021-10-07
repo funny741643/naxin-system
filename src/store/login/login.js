@@ -15,14 +15,21 @@ const loginModule = {
         // 修改state中的值
         changeToken(state,token){
             state.token = token
+        },
+        changeUserInfo(state,userInfo){
+            state.userInfo = userInfo
         }
     },
     getters: {},
     actions: {
-        accoutLoginAction(payload){
+        accoutLoginAction({commit},payload){
             //登录逻辑，获取请求的返回值,
             axios.get("/api/users").then((res) => {
                 console.log(res)
+                const userInfo = res
+                console.log('userInfo',userInfo)
+                commit('changeUserInfo', userInfo)
+                localCache.setCache('userInfo',userInfo)
             })
             // const loginres = payload => get("/api/users", payload)
             // console.log(loginres.data)
@@ -31,6 +38,11 @@ const loginModule = {
             // localCache.setCache('token', token)
             // // 路由跳转
             // router.push('/home')
+        },
+        registerFun(payload){
+            axios.get("/api/users",payload).then((res) => {
+                console.log(res)
+            })
         }
         
     }
