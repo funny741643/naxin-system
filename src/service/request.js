@@ -1,21 +1,22 @@
 import axios from 'axios'
-
+import localStorage from '../utils/cache'
 axios.defaults.withCredentials = true
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // 添加请求拦截器
-// service.interceptors.request.use(
-//     function (config) {
-//         // 在发送请求之前做些什么
-            /* 给请求添加token   isloading动画 */
-//         return config;
-//     },
-//     function (error) {
-//         // 对请求错误做些什么
-//         return Promise.reject(error);
-//     }
-// );
+axios.interceptors.request.use(
+     function (config) {
+         // 在发送请求之前做些什么
+          /* 给请求添加token   isloading动画 */
+         axios.defaults.headers['authorization'] = localStorage.getCache('token') || ''
+         return config;
+     },
+     function (error) {
+         // 对请求错误做些什么
+         return Promise.reject(error);
+     }
+);
 
 
 // 添加响应拦截器

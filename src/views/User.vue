@@ -1,14 +1,15 @@
 <template>
   <div class="user">
-     <navbar></navbar>
+     <usertable></usertable>
   </div>
 </template>
 
 <script>
-import navbar from './cmps/navbar.vue'
+import usertable from './cmps/usertable.vue'
 export default {
-  components: { navbar },
+  components: { usertable },
    setup() {
+    
    },
 }
 </script>

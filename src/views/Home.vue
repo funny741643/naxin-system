@@ -6,13 +6,17 @@
         <div>
           <el-dropdown>
             <div class="el-dropdown-link">
-              <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="">
-              <div>{{name}}</div>
+              <img
+                src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+                alt=""
+              />
+              <div>{{ name }}</div>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>去授权</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-close" @click="backlogin">退出登录</el-dropdown-item
+                <el-dropdown-item @click="accredit">去授权</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-circle-close" @click="backlogin"
+                  >退出登录</el-dropdown-item
                 >
               </el-dropdown-menu>
             </template>
@@ -67,12 +71,13 @@
 <script>
 import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import axios from "../utils/request";
-import router from "../router"
+import router from "../router";
 import localCache from "../utils/cache";
-// import { routes } from "../router";
+import { useStore } from "vuex";
+
 export default {
   setup() {
+    const store = useStore();
     const items = [
       {
         icon: "el-icon-location",
@@ -88,14 +93,6 @@ export default {
             index: "/interview1",
             title: "一轮面试",
           },
-          {
-            index: "/interview2",
-            title: "二轮面试",
-          },
-          {
-            index: "/interview3",
-            title: "三轮面试",
-          },
         ],
       },
       {
@@ -107,30 +104,46 @@ export default {
 
     const route = useRoute();
     const name = localCache.getCache("name");
-    const backlogin = ()=>{
-      console.log(route)
-      router.replace('/login')
-    }
+    const backlogin = () => {
+      console.log(route);
+      router.replace("/login");
+    };
+    // 授权操作
+    const accredit = () => {
+      console.log("accredit");
+      store.dispatch("accreditAction");
+      if (store.flag) {
+        items.push({
+          icon: "el-icon-document",
+          index: "/SuperAdmin",
+          title: "管理员信息",
+        });
+        router.replace('/superadmin')
+        console.log(items)
+        
+      }
+    };
 
     const onRoutes = computed(() => {
       return route.path;
     });
 
-    const testRequest = () => {
-      axios.get("/api/users").then((res) => {
-        console.log(res);
-      });
-    };
+    // const testRequest = () => {
+    //   axios.get("/api/users").then((res) => {
+    //     console.log(res);
+    //   });
+    // };
 
-    onMounted(() => {
-      testRequest();
-    });
+    // onMounted(() => {
+    //   testRequest();
+    // });
 
     return {
       items,
       name,
       onRoutes,
-      backlogin
+      backlogin,
+      accredit,
     };
   },
 };
@@ -153,9 +166,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color:#fff;
+    color: #fff;
     font-size: 13px;
-    >img{
+    > img {
       height: 26px;
       width: 26px;
     }

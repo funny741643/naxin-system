@@ -1,11 +1,14 @@
 <template>
   <div class="register">
     <el-form label-width="80px" :rules="rules" :model="account" ref="formRef">
-      <el-form-item label="账号" prop="name">
-        <el-input v-model="account.name"></el-input>
+      <el-form-item label="姓名" prop="admin_name">
+        <el-input v-model="account.admin_name"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="account.password"></el-input>
+      <el-form-item label="账号" prop="admin_num">
+        <el-input v-model="account.admin_num"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="admin_password">
+        <el-input v-model="account.admin_password"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="SurePassword">
         <el-input v-model="account.SurePassword"></el-input>
@@ -22,23 +25,24 @@ export default {
   setup() {
     const store = useStore();
     const account = reactive({
-      name: "",
-      password: "",
+      admin_name: "",
+      admin_num: "",
+      admin_password: "",
       SurePassword: "",
     });
     const formRef = ref();
     const surepw = (rule, value, callback) => {
-      if (account.password !== account.SurePassword) {
+      if (account.admin_password !== account.SurePassword) {
         callback(new Error("两次输入密码不一致，请重新输入！"));
       }
     };
 
     const registerAciton = () => {
-      console.log('registerAciton')
+      console.log("registerAciton");
 
       //进不到？？？
       formRef.value.validate((valid) => {
-        console.log(222)
+        console.log(222);
         if (valid) {
           store.dispatch("registerFun", { ...account });
         }
@@ -46,10 +50,17 @@ export default {
     };
 
     const rules = {
-      name: [
+      admin_name: [
         {
           required: true,
           message: "用户名不为空",
+          trigger: "blur",
+        },
+      ],
+      admin_num: [
+        {
+          required: true,
+          message: "账号不为空",
           trigger: "blur",
         },
         {
@@ -58,7 +69,7 @@ export default {
           trigger: "blur",
         },
       ],
-      password: [
+      admin_password: [
         {
           required: true,
           message: "密码不为空",

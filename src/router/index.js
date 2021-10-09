@@ -64,6 +64,23 @@ const routes = [
                     icon: 'el-icon-location',
                     title: '新成员名单'
                 }
+            },{
+                path: '/appraise',
+                name: 'appraise',
+                component: () => import('../views/appraise.vue'),
+                meta: {
+                    icon: 'el-icon-location',
+                    title: '评价页'
+                }
+            },
+            {
+                path: '/SuperAdmin',
+                name: 'SuperAdmin',
+                component: () => import('../views/superadmin.vue'),
+                meta: {
+                    icon: 'el-icon-location',
+                    title: '管理员名单'
+                }
             }
         ]
     },

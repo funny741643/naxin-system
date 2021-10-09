@@ -1,5 +1,7 @@
 import {createStore} from 'vuex'
 import login from './login/login.js'
+import userInfo from './userInfo/userInfo'
+import accredit from './accredit/accredit'
 const store = createStore({
     state:()=>{
         return {
@@ -11,7 +13,9 @@ const store = createStore({
     getters:{},
     actions:{},
     modules:{
-        login
+        login,
+        userInfo,
+        accredit
     }
 })
 export default store
