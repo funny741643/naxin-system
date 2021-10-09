@@ -24,7 +24,7 @@ export default {
     setup(){
         const store = useStore()
         const account = reactive({
-            admin_name:'',
+            admin_name: localCache.getCache('admin_name')?localCache.getCache('admin_name'):'',
             admin_num: localCache.getCache('admin_num')?localCache.getCache('admin_num'):'',
             admin_password: localCache.getCache('admin_password')?localCache.getCache('admin_password'):''
         })
@@ -60,7 +60,7 @@ export default {
             formRef.value.validate((valid)=>{
                 localCache.setCache('admin_name',account.admin_name)
                 if(valid){
-                    console.log('store.state',store)
+                    // console.log('store.state',store)
                     // 记住密码
                     if(isKeepPassword){
                         localCache.setCache('admin_num',account.admin_num)
@@ -72,8 +72,6 @@ export default {
                     }
                     // 登录验证
                     store.dispatch('accoutLoginAction',{...account})
-                    
-                    
                 }
             })
         }

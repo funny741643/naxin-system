@@ -112,15 +112,13 @@ export default {
     const accredit = () => {
       console.log("accredit");
       store.dispatch("accreditAction");
-      if (store.flag) {
+      if (store.state.power) {
         items.push({
           icon: "el-icon-document",
           index: "/SuperAdmin",
           title: "管理员信息",
         });
-        router.replace('/superadmin')
-        console.log(items)
-        
+        router.push('/superadmin')
       }
     };
 

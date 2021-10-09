@@ -6,16 +6,17 @@
         <el-table-column label="姓名" prop="student_name"></el-table-column>
         <el-table-column label="邮箱" prop="email"></el-table-column>
         <el-table-column label="电话" prop="mobile"></el-table-column>
-        <el-table-column label="面试状态">
-          <template slot-scope="">
-            <!-- <el-button v-if="scope.interview_state == -1">未面试</el-button> -->
-            <!-- <span>{{scope.row}}</span> -->
-          </template>
+        <el-table-column label="面试状态" prop="interview_state">
+          {{interview_state}}
+          <el-button v-if="interview_state == -1">未面试</el-button>
+          <!-- <template slot-scope="">
+            <el-button v-if="scope.interview_state == -1">未面试</el-button>
+            <span>{{scope.row}}</span>
+          </template> -->
         </el-table-column>
         <el-table-column label="选择方向" prop="choice"></el-table-column>
         <el-table-column label="评价" width="180">
-          <el-button @click="appraise">去评价</el-button>
-          <el-button>发邮件</el-button>
+          <el-button @click="evaluate">去面试</el-button>
         </el-table-column>
       </el-table>
       <div class="block">
@@ -91,15 +92,15 @@ export default {
       queryInfo.pagenum = newnum;
       getuserInfo();
     };
-
-    const appraise = ()=>{
-      router.replace('/appraise')
+    // 跳转评价页
+    const evaluate = ()=>{
+      router.push('../appraise')
     }
     return {
       userlist,
       queryInfo,
       total,
-      appraise,
+      evaluate,
       getuserInfo,
       handleSizeChange,
       handleCurrentChange,
