@@ -23,7 +23,7 @@ const interviewing = {
         UserInfoingAcction({commit},payload){
           console.log('开始请求信息')
         //   请求用户信息
-          axios.get('/interviewing?pagesize=6&pagenum=1',prams).then((res)=>{
+          axios.get(`/interviewing?pagesize=${payload.pagesize}&pagenum=${payload.pagenum}`,payload).then((res)=>{
               if(res.status === 200){
                   const userInfoing = res.list
                   const usertotaling = res.total

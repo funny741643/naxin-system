@@ -5,20 +5,32 @@
         <el-table-column label="学号" prop="admin_num"></el-table-column>
         <el-table-column label="姓名" prop="admin_name"></el-table-column>
         <el-table-column label="方向" prop="role">
-          <!-- <template #value>
-            <el-select v-model="value" placeholder="请选择">
+          <template>
+            <!-- <el-select v-model="role" placeholder="请选择">
               <el-option
                 v-for="item in options"
-                :key="item.value"
+                :key="item.role"
                 :label="item.label"
-                :value="item.value"
+                :role="item.role"
               >
               </el-option>
-            </el-select>
-          </template> -->
+            </el-select> -->
+            <!-- <el-select>
+              <el-option
+                key="234"
+                label="前端"
+              >
+
+              </el-option>
+            </el-select> -->
+        
+          </template>
+            
         </el-table-column>
         <el-table-column label="授权">
-            <el-button @click="changePower">去授权</el-button>
+          <template #default="scope">
+            <el-button @click="changePower(scope.row)">去授权</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="block">
@@ -35,15 +47,6 @@
         </el-pagination>
       </div>
     </el-card>
-    <el-select v-model="value" placeholder="请选择">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-      </el-option>
-    </el-select>
   </div>
 </template>
 
@@ -58,31 +61,30 @@ export default {
       pagenum: 1, //当前页数
       pagesize: 2, //可以显示的条数
     });
-    const total = store.state.adminTotal;
-
     const options = [
       {
-        value: "选项1",
+        role: "选项1",
         label: "前端组",
       },
       {
-        value: "选项2",
+        role: "选项2",
         label: "后台组",
       },
       {
-        value: "选项3",
+        role: "选项3",
         label: "go组",
       },
       {
-        value: "选项4",
+        role: "选项4",
         label: "服务端",
       },
       {
-        value: "选项5",
+        role: "选项5",
         label: "机器学习",
       },
     ];
-    const value = ref("前端组");
+    const role = ref("前端组");
+    const total = store.state.adminTotal;
     // const adminlist = store.state.admimInfo
     const adminlist = [
       {
@@ -102,37 +104,37 @@ export default {
       },
     ];
     // 更新adminlist
-    const updateAdminInfo = ()=>{
+    const updateAdminInfo = () => {
       // 这里触发的是授权的请求，感觉有点不太对？？？？？？？？？？
-      store.dispatch("accreditAction")
-    }
+      store.dispatch("accreditAction");
+    };
 
     //监听pagesize改变
     const handleSizeChange = (newsize) => {
       queryInfo.pagesize = newsize;
-      updateAdminInfo()
+      updateAdminInfo();
     };
     //当前页数的改变
     const handleCurrentChange = (newnum) => {
       queryInfo.pagenum = newnum;
-      updateAdminInfo()
+      updateAdminInfo();
     };
     // 超管授权，改变管理员组别
-    const changePower = (e)=>{
-      // 获取列表中的num和role，对role要有转换
-        const warranty = [e.admin_num,e.admin_name]
-        store.dispatch("changePowerAction",{...warranty})
-    }
+    const changePower = (adminMg) => {
+      
+      
+      store.dispatch("changePowerAction", { ...warranty });
+    };
     return {
       adminlist,
       queryInfo,
       total,
       options,
-      value,
+      role,
       updateAdminInfo,
       handleSizeChange,
       handleCurrentChange,
-      changePower
+      changePower,
     };
   },
 };

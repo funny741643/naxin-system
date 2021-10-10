@@ -23,7 +23,7 @@ const interviewed = {
         UserInfoedAcction({commit},payload){
           console.log('开始请求信息')
         //   请求用户信息
-          axios.get(`/interviewed?pagesize=${payload}&pagenum=1`,prams).then((res)=>{
+          axios.get(`/interviewed?pagesize=${payload.pagesize}&pagenum=${payload.pagenum}`,payload).then((res)=>{
               if(res.status === 200){
                 const userInfoed = res.list
                 const usertotaled = res.total

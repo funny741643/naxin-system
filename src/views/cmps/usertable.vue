@@ -17,12 +17,14 @@
           </template>
         </el-table-column>
         <el-table-column label="选择方向"  prop="choice">
-          <template #default="scope" :usergroup ="getusergroup(scope.row.choice)">
-            <span>{{usergroup}}</span>
+          <template #default="scope" >
+            <span>{{getusergroup(scope.row.choice)}}</span>
           </template>
         </el-table-column>
         <el-table-column label="评价" width="180">
-          <el-button @click="evaluate">去面ta</el-button>
+          <template #default="scope">
+              <el-button @click="evaluate(scope.row.student_num)">去面ta</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="block">
@@ -46,7 +48,7 @@
 import { computed, ref, reactive } from "@vue/reactivity";
 import { useStore } from "vuex";
 import router from "../../router";
-
+import localStorage from '../../utils/cache'
 export default {
   setup() {
     const store = useStore();
@@ -91,31 +93,10 @@ export default {
       userlist = store.state.userInfo
     };
     //根据choice判断那个组
-    const getusergroup = (choice)=>{
-      switch(choice){
-        case 2:
-          usergroup = '前端';
-          break;
-        case 3:
-          usergroup = 'Go';
-          break;
-        case 4:
-          usergroup = 'Java';
-          break;
-        case 5:
-          usergroup = '服务端';
-          break;
-        case 6:
-          usergroup = '机器学习';
-          break;
-        case 1:
-          usergroup = "超级管理员";
-          break;
-        default :
-          console.log('未选择、未赋权')
-      }
+    const group = ['未选择、未赋权','超级管理员','前端','Go','Java','服务端','机器学习']
+    const getusergroup = (choice) =>{
+      return group[choice+1]
     }
-
     //监听pagesize改变
     const handleSizeChange = (newsize) => {
       queryInfo.pagesize = newsize;
@@ -127,7 +108,9 @@ export default {
       getuserInfo();
     };
     // 跳转评价页
-    const evaluate = () => {
+    const evaluate = (student_num) => {
+      // 跳转的时候保存student_num
+      localStorage.setCache('evalateStudent_num',student_num)
       router.push("../appraise");
     };
     return {

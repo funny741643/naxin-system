@@ -1,4 +1,7 @@
 import axios from 'axios'
+import {
+    ElMessage
+} from 'element-plus'
 const accreditModul = {
     namespace:true,
     state: () => {
@@ -30,9 +33,13 @@ const accreditModul = {
                 pagesize: 5,
                 pagenum: 1
             }
-            axios.get('api/superadmin/getadminpage?pagesize=5&pagenum=1',prams).then(res=>{
+            axios.get(`api/superadmin/getadminpage?pagesize=${params.pagesize}&pagenum=${params.pagenum}`,prams).then(res=>{
                 console.log(res)
                 if(res.status !== 200 && res.status === 1008){
+                    ElMessage.warning({
+                        message: '抱歉，你没有权限！正在授权，请稍等',
+                        type: 'warning',
+                    })
                     console.log('没有权限')
                 }else{
                     const {power,adminInfo} = res;
@@ -41,6 +48,7 @@ const accreditModul = {
                 }
             })
         },
+        // 超管改变权限
         changePowerAction({commit},payload){
             axios.post('/superadmin/changepower')
         }

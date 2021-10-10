@@ -4,6 +4,7 @@ import userInfo from './userInfo/userInfo'
 import accredit from './accredit/accredit'
 import interviewing from './userInfo/interviewing'
 import interviewed from './userInfo/interviewed'
+import appraise from './appraise/appraise'
 const store = createStore({
     state:()=>{
         return {
@@ -19,7 +20,8 @@ const store = createStore({
         userInfo,
         accredit,
         interviewing,
-        interviewed
+        interviewed,
+        appraise
     }
 })
 export default store

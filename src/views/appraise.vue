@@ -15,18 +15,21 @@
 
 <script>
 import {reactive} from '@vue/reactivity'
+import localStorage from '../utils/cache'
 import {useStore} from 'vuex'
 export default {
   setup() {
     const store = useStore();
-    const evaluator = store.state.admin_name;
+    const evaluator = localStorage.getCache('admin_num') ? localStorage.getCache('admin_num'):'';
     // console.log(evaluator)
     const apprasieMsg = reactive({
       appraise:'',
       score:'',
+      studentName: localStorage.getCache("evalateStudent_num")?localStorage.getCache("evalateStudent_num"):''
     })
+    console.log(apprasieMsg)
     const admitAppraise = ()=>{
-      store.dispatch('')
+      store.dispatch("appraiseAction",{...apprasieMsg})
     }
     return {
       apprasieMsg,
