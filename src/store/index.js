@@ -2,6 +2,8 @@ import {createStore} from 'vuex'
 import login from './login/login.js'
 import userInfo from './userInfo/userInfo'
 import accredit from './accredit/accredit'
+import interviewing from './userInfo/interviewing'
+import interviewed from './userInfo/interviewed'
 const store = createStore({
     state:()=>{
         return {
@@ -15,7 +17,9 @@ const store = createStore({
     modules:{
         login,
         userInfo,
-        accredit
+        accredit,
+        interviewing,
+        interviewed
     }
 })
 export default store

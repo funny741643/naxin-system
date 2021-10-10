@@ -27,32 +27,22 @@ const routes = [
                 }
             },
             {
-                path: '/interview1',
-                name: 'interview1',
-                component: () => import('../views/interview1.vue'),
+                path: '/interviewing',
+                name: 'interviewing',
+                component: () => import('../views/Interviewing.vue'),
                 meta: {
                     icon: 'el-icon-location',
-                    title: '一面',
+                    title: '一面中',
                     parent: '面试管理'
                 }
             },
             {
-                path: '/interview2',
-                name: 'interview2',
-                component: () => import('../views/interview2.vue'),
+                path: '/interviewed',
+                name: 'interviewed',
+                component: () => import('../views/Interviewed.vue'),
                 meta: {
                     icon: 'el-icon-location',
-                    title: '二面',
-                    parent: '面试管理'
-                }
-            },
-            {
-                path: '/interview3',
-                name: 'interview3',
-                component: () => import('../views/interview3.vue'),
-                meta: {
-                    icon: 'el-icon-location',
-                    title: '三面',
+                    title: '一面结束',
                     parent: '面试管理'
                 }
             },

@@ -7,16 +7,22 @@
         <el-table-column label="邮箱" prop="email"></el-table-column>
         <el-table-column label="电话" prop="mobile"></el-table-column>
         <el-table-column label="面试状态" prop="interview_state">
-          {{interview_state}}
-          <el-button v-if="interview_state == -1">未面试</el-button>
-          <!-- <template slot-scope="">
-            <el-button v-if="scope.interview_state == -1">未面试</el-button>
-            <span>{{scope.row}}</span>
-          </template> -->
+          <template #default="scope">
+            <el-button v-if="scope.row.interview_state == 0" type="primary">等待面试           
+            </el-button>
+             <el-button v-else-if="scope.row.interview_state == 1" type="success">面试中            
+            </el-button>
+            <el-button v-else type="warning">面试结束           
+            </el-button>
+          </template>
         </el-table-column>
-        <el-table-column label="选择方向" prop="choice"></el-table-column>
+        <el-table-column label="选择方向"  prop="choice">
+          <template #default="scope" :usergroup ="getusergroup(scope.row.choice)">
+            <span>{{usergroup}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="评价" width="180">
-          <el-button @click="evaluate">去面试</el-button>
+          <el-button @click="evaluate">去面ta</el-button>
         </el-table-column>
       </el-table>
       <div class="block">
@@ -39,7 +45,7 @@
 <script>
 import { computed, ref, reactive } from "@vue/reactivity";
 import { useStore } from "vuex";
-import router from '../../router'
+import router from "../../router";
 
 export default {
   setup() {
@@ -48,40 +54,68 @@ export default {
       pagenum: 1, //当前页数
       pagesize: 2, //可以显示的条数
     });
-    const total = ref(100);
-
+    const total = store.state.usertotal;
+    const usergroup = ref()
+    // const userlist = store.state.userlist ? store.state.userlist : reactive([])
     const userlist = [
       {
         student_num: "04192106",
         student_name: "llr",
         email: "2119999999@qq.com",
         mobile: "1111111",
-        interview_state: -1,
-        choice: "前端组",
-      },
-      {
-        student_num: "04192106",
-        student_name: "llr",
-        email: "2119999999@qq.com",
-        mobile: "1111111",
-        interview_state: -1,
-        choice: "前端组",
-      },
-      {
-        student_num: "04192106",
-        student_name: "llr",
-        email: "2119999999@qq.com",
-        mobile: "1111111",
         interview_state: 0,
-        choice: "前端组",
-      }
+        choice: 1,
+      },
+      {
+        student_num: "04192106",
+        student_name: "llr",
+        email: "2119999999@qq.com",
+        mobile: "1111111",
+        interview_state: 1,
+        choice: 2,
+      },
+      {
+        student_num: "04192106",
+        student_name: "llr",
+        email: "2119999999@qq.com",
+        mobile: "1111111",
+        interview_state: 2,
+        choice: 4,
+      },
     ];
     //发送请求,获取页面数据
     const getuserInfo = () => {
       console.log(111);
       store.dispatch("UserInfoAcction", { ...queryInfo });
-      // const userlist = store.state.userInfo
+      // 更新用户列表
+      userlist = store.state.userInfo
     };
+    //根据choice判断那个组
+    const getusergroup = (choice)=>{
+      switch(choice){
+        case 2:
+          usergroup = '前端';
+          break;
+        case 3:
+          usergroup = 'Go';
+          break;
+        case 4:
+          usergroup = 'Java';
+          break;
+        case 5:
+          usergroup = '服务端';
+          break;
+        case 6:
+          usergroup = '机器学习';
+          break;
+        case 1:
+          usergroup = "超级管理员";
+          break;
+        default :
+          console.log('未选择、未赋权')
+      }
+    }
+
     //监听pagesize改变
     const handleSizeChange = (newsize) => {
       queryInfo.pagesize = newsize;
@@ -93,15 +127,17 @@ export default {
       getuserInfo();
     };
     // 跳转评价页
-    const evaluate = ()=>{
-      router.push('../appraise')
-    }
+    const evaluate = () => {
+      router.push("../appraise");
+    };
     return {
       userlist,
       queryInfo,
       total,
+      usergroup,
       evaluate,
       getuserInfo,
+      getusergroup,
       handleSizeChange,
       handleCurrentChange,
     };
@@ -115,5 +151,8 @@ export default {
 }
 .el-pagination {
   margin-top: 10px;
+}
+.el-button{
+  width: 80px;
 }
 </style>

@@ -90,8 +90,12 @@ export default {
         title: "面试管理",
         subs: [
           {
-            index: "/interview1",
-            title: "一轮面试",
+            index: "/interviewing",
+            title: "面试中",
+          },
+          {
+            index: "/interviewed",
+            title: "一面结束",
           },
         ],
       },

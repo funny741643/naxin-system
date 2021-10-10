@@ -1,11 +1,10 @@
 // import {Module} from 'vuex'
 import router from '../../router'
-import {
-    get,
-    post
-} from '../../service/request'
 import localCache from '../../utils/cache'
 import axios from 'axios'
+import {
+    ElMessage
+} from 'element-plus'
 const loginModule = {
     namespace: true,
     state: () => {
@@ -36,13 +35,15 @@ const loginModule = {
                     const token = res.token
                     commit('changeToken', token)
                     localCache.setCache('token', token)
+                    window.location.href = "/"
                     // token缓存后要刷新页面
                     // 还未实现
                     // 路由跳转
-                    router.push('/home')
+                    // router.push('/home')
                 }
             })
         },
+        // 注册逻辑
         registerFun({
             commit
         }, payload) {
@@ -50,9 +51,18 @@ const loginModule = {
                 if (res.status === 1001) {
                     //提示框
                     console.log('该用户已存在')
+                    ElMessage.warning({
+                        message: '该用户已存在，请重新注册',
+                        type: 'warning',
+                    })
+
                 } else if (res.status === 200) {
                     // 提示用户登录
                     console.log('success')
+                    ElMessage.success({
+                        message: '注册成功，请登录',
+                        type: 'success',
+                    })
                 }
             })
         }

@@ -7,11 +7,15 @@
         <el-table-column label="邮箱" prop="email"></el-table-column>
         <el-table-column label="电话" prop="mobile"></el-table-column>
         <el-table-column label="面试状态" prop="interview_state">
-          <el-button>未面</el-button>
+          <el-button>一面完</el-button>
         </el-table-column>
         <el-table-column label="选择方向" prop="choice"></el-table-column>
-        <el-table-column label="评价" width="180">
-          <el-button>去评价</el-button>
+        <el-table-column label="查看信息" >
+              <el-link type="primary">查看</el-link>
+        </el-table-column>
+        <el-table-column label="是否通过" width="200px">
+            <el-button>通过</el-button>
+            <el-button>未通过</el-button>
         </el-table-column>
       </el-table>
       <div class="block">
@@ -32,9 +36,11 @@
 </template>
 <script>
 import { computed, ref, reactive } from "@vue/reactivity";
+import {useStore} from 'vuex'
 export default {
   setup() {
-    const userlist = [
+      const store = useStore()
+    const userlisted = [
       {
         student_num: "04192106",
         student_name: "llr",
@@ -85,22 +91,29 @@ export default {
       pagesize: 2,
     });
     const total = ref(0);
+
+    // 获取面试完考生信息
+    const getuserlisted = ()=>{
+        store.dispatch("UserInfoedAcction",{...queryInfo})
+        userlisted = store.state.userlisted
+    }
+
     //监听pagesize改变
     const handleSizeChange = (newsize) => {
       queryInfo.pagesize = newsize;
+      getuserlisted()
     };
     const handleCurrentChange = (newpagenum) => {
       queryInfo.pagenum = newpagenum;
+      getuserlisted()
     };
-
-    // const userlist = store.state.userInfo
-    console.log(userlist);
     return {
-      userlist,
+      userlisted,
       queryInfo,
       total,
       handleSizeChange,
       handleCurrentChange,
+      getuserlisted
     };
   },
 };

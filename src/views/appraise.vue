@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card class="box-card">
-      <el-input type="textarea" :rows="7" placeholder="请输入你的评价" v-model="appraise" style="font-size: 17px;">
+      <el-input type="textarea" :rows="7" placeholder="请输入你的评价" maxlength="300"  v-model="appraise" style="font-size: 17px;">
       </el-input>
       <div class="score">
         <div>
