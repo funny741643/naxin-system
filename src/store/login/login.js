@@ -27,7 +27,8 @@ const loginModule = {
             commit
         }, payload) {
             //登录逻辑，获取请求的返回值,
-            axios.post("/api/users", payload).then((res) => {
+            console.log('accoutLoginAction')
+            axios.post("http://192.168.236.120/admin/login", payload).then((res) => {
                 console.log(res)
                 if (res.status !== 200 && res.status === 1003) {
                     console.log("管理员不存在，该学号未注册")
@@ -47,7 +48,9 @@ const loginModule = {
         registerFun({
             commit
         }, payload) {
-            axios.post("/api/regist", payload).then((res) => {
+            console.log(registerFun)
+            axios.post("http://192.168.236.120/admin/regist", payload).then((res) => {
+                console.log('register')
                 if (res.status === 1001) {
                     //提示框
                     console.log('该用户已存在')

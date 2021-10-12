@@ -29,7 +29,7 @@ const accreditModul = {
         // 登录后，点击去授权，power为true加载超管的页面，超管授权
         accreditAction({commit},payload){
             // 这里url可以怎样改进？？？
-            const prams = {
+            const params = {
                 pagesize: 5,
                 pagenum: 1
             }
@@ -50,7 +50,19 @@ const accreditModul = {
         },
         // 超管改变权限
         changePowerAction({commit},payload){
-            axios.post('/superadmin/changepower')
+            let role;
+            const groups = ['未选择、未赋权','超级管理员',"前端组", "后台组", "go组", "服务端", "机器学习"]
+            groups.filter((item,index)=>{
+                if(item == payload.role){
+                    role = index
+                }
+            })
+            const prams = {
+                admin_num:payload.admin_num,
+                role
+            }
+            // console.log(prams)
+            axios.post('/superadmin/changepower',prams)
         }
     }
 }

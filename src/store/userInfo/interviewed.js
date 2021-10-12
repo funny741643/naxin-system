@@ -5,7 +5,10 @@ const interviewed = {
     state: () => {
         return {
             userInfoed:[],
-            usertotaled:''
+            usertotaled:'',
+            appraise:'',
+            evaluator:'',
+            score:''
         }
     },
     mutations: {
@@ -15,6 +18,15 @@ const interviewed = {
         },
         changeUsertotaled(state,usertotaled){
             state.usertotaled = usertotaled
+        },
+        changeStudentAppraise(state,studentAppraise){
+            state.appraise = studentAppraise
+        },
+        changeEvaluator(state,evaluator){
+            state.evaluator = evaluator
+        },
+        changeScore(state,studentscore){
+            state.score = studentscore
         }
        
     },
@@ -31,6 +43,19 @@ const interviewed = {
                   commit("changeUsertotaled",usertotaled)
               }
               
+          })
+      },
+    //查找考生评价和分数,评价人
+      findUserMg({commit},payload){
+          axios.get(``,payload).then(res=>{
+              if(res.status === 200){
+                const studentAppraise = res.appraise
+                const evaluator = res.evaluator
+                const studentscore = res.studentscore
+                commit("changeStudentAppraise",studentAppraise)
+                commit("changeEvaluator",evaluator)
+                commit("changeScore",studentscore)
+              }
           })
       }
         

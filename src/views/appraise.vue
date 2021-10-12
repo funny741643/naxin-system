@@ -17,19 +17,37 @@
 import {reactive} from '@vue/reactivity'
 import localStorage from '../utils/cache'
 import {useStore} from 'vuex'
+// import {MessageBox} from 'element-plus'
 export default {
   setup() {
     const store = useStore();
     const evaluator = localStorage.getCache('admin_num') ? localStorage.getCache('admin_num'):'';
     // console.log(evaluator)
-    const apprasieMsg = reactive({
+    let apprasieMsg = reactive({
       appraise:'',
       score:'',
       studentName: localStorage.getCache("evalateStudent_num")?localStorage.getCache("evalateStudent_num"):''
     })
     console.log(apprasieMsg)
     const admitAppraise = ()=>{
+      // confirm('提交评价, 是否继续?', '提示', {
+      //     confirmButtonText: '确定',
+      //     cancelButtonText: '取消',
+      //     center: true,
+      //   }).then(() => {
+      //       message({
+      //         type: 'success',
+      //         message: '提交成功！',
+      //       })
+      //     }).catch(() => {
+      //       message({
+      //         type: 'info',
+      //         message: '取消提交！',
+      //       })
+      //     })
       store.dispatch("appraiseAction",{...apprasieMsg})
+      apprasieMsg.appraise = '',
+      apprasieMsg.score = ''
     }
     return {
       apprasieMsg,

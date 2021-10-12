@@ -58,6 +58,7 @@ export default {
         const loginAction = (isKeepPassword)=>{
             console.log('account开始登录')
             formRef.value.validate((valid)=>{
+                console.log(valid)
                 localCache.setCache('admin_name',account.admin_name)
                 if(valid){
                     // console.log('store.state',store)

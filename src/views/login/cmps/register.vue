@@ -37,19 +37,7 @@ export default {
       }
     };
 
-    const registerAciton = () => {
-      console.log("registerAciton");
-
-      //进不到？？？
-      formRef.value.validate((valid) => {
-        console.log(222);
-        if (valid) {
-          store.dispatch("registerFun", { ...account });
-        }
-      });
-    };
-
-    const rules = {
+    let rules = {
       admin_name: [
         {
           required: true,
@@ -92,6 +80,17 @@ export default {
           trigger: "blur",
         },
       ],
+    };
+
+    const registerAciton = () => {
+      console.log("registerAciton");
+      // console.log("@@@", formRef);
+      formRef.value.validate((valid) => {
+        console.log(valid);
+        if (valid) {
+          store.dispatch("registerFun", { ...account });
+        }
+      });
     };
 
     return {

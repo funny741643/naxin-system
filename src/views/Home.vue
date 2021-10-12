@@ -107,7 +107,7 @@ export default {
     ];
 
     const route = useRoute();
-    const name = localCache.getCache("name");
+    const name = localCache.getCache("admin_name");
     const backlogin = () => {
       console.log(route);
       router.replace("/login");

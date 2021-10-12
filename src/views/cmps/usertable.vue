@@ -52,39 +52,39 @@ import localStorage from '../../utils/cache'
 export default {
   setup() {
     const store = useStore();
-    const queryInfo = reactive({
+    let queryInfo = reactive({
       pagenum: 1, //当前页数
       pagesize: 2, //可以显示的条数
     });
     const total = store.state.usertotal;
     const usergroup = ref()
-    // const userlist = store.state.userlist ? store.state.userlist : reactive([])
-    const userlist = [
-      {
-        student_num: "04192106",
-        student_name: "llr",
-        email: "2119999999@qq.com",
-        mobile: "1111111",
-        interview_state: 0,
-        choice: 1,
-      },
-      {
-        student_num: "04192106",
-        student_name: "llr",
-        email: "2119999999@qq.com",
-        mobile: "1111111",
-        interview_state: 1,
-        choice: 2,
-      },
-      {
-        student_num: "04192106",
-        student_name: "llr",
-        email: "2119999999@qq.com",
-        mobile: "1111111",
-        interview_state: 2,
-        choice: 4,
-      },
-    ];
+    let userlist = store.state.userlist ? store.state.userlist : reactive([])
+    // const userlist = [
+    //   {
+    //     student_num: "04192106",
+    //     student_name: "llr",
+    //     email: "2119999999@qq.com",
+    //     mobile: "1111111",
+    //     interview_state: 0,
+    //     choice: 1,
+    //   },
+    //   {
+    //     student_num: "04192106",
+    //     student_name: "llr",
+    //     email: "2119999999@qq.com",
+    //     mobile: "1111111",
+    //     interview_state: 1,
+    //     choice: 2,
+    //   },
+    //   {
+    //     student_num: "04192106",
+    //     student_name: "llr",
+    //     email: "2119999999@qq.com",
+    //     mobile: "1111111",
+    //     interview_state: 2,
+    //     choice: 4,
+    //   },
+    // ];
     //发送请求,获取页面数据
     const getuserInfo = () => {
       console.log(111);
@@ -95,7 +95,7 @@ export default {
     //根据choice判断那个组
     const group = ['未选择、未赋权','超级管理员','前端','Go','Java','服务端','机器学习']
     const getusergroup = (choice) =>{
-      return group[choice+1]
+      return group[choice]
     }
     //监听pagesize改变
     const handleSizeChange = (newsize) => {
