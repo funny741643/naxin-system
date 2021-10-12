@@ -34,6 +34,8 @@ export default {
     const surepw = (rule, value, callback) => {
       if (account.admin_password !== account.SurePassword) {
         callback(new Error("两次输入密码不一致，请重新输入！"));
+      }else {
+        callback()
       }
     };
 
@@ -83,11 +85,9 @@ export default {
     };
 
     const registerAciton = () => {
-      console.log("registerAciton");
-      // console.log("@@@", formRef);
       formRef.value.validate((valid) => {
-        console.log(valid);
         if (valid) {
+          console.log(valid)
           store.dispatch("registerFun", { ...account });
         }
       });

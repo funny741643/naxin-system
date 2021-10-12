@@ -1,8 +1,10 @@
 import axios from 'axios'
 import localStorage from '../utils/cache'
-axios.defaults.withCredentials = true
-axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+// axios.defaults.withCredentials = true
+// axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+// axios.defaults.headers.post['Content-Type'] = '"application/x-www-form-urlencoded"'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
+
 
 // 添加请求拦截器
 axios.interceptors.request.use(

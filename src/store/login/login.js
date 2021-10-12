@@ -1,7 +1,7 @@
 // import {Module} from 'vuex'
 import router from '../../router'
 import localCache from '../../utils/cache'
-import axios from 'axios'
+import axios from '../../service/request.js'
 import {
     ElMessage
 } from 'element-plus'
@@ -28,7 +28,8 @@ const loginModule = {
         }, payload) {
             //登录逻辑，获取请求的返回值,
             console.log('accoutLoginAction')
-            axios.post("http://192.168.236.120/admin/login", payload).then((res) => {
+            axios.post("http://192.168.1.121:3000/admin/login", payload).then((res) => {
+            // axios.post("/api/admin/login", payload).then((res) => {
                 console.log(res)
                 if (res.status !== 200 && res.status === 1003) {
                     console.log("管理员不存在，该学号未注册")
@@ -48,8 +49,8 @@ const loginModule = {
         registerFun({
             commit
         }, payload) {
-            console.log(registerFun)
-            axios.post("http://192.168.236.120/admin/regist", payload).then((res) => {
+            console.log('registerFun')
+            axios.post("/api/regist", payload).then((res) => {
                 console.log('register')
                 if (res.status === 1001) {
                     //提示框

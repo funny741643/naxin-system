@@ -49,9 +49,11 @@ import { computed, ref, reactive } from "@vue/reactivity";
 import { useStore } from "vuex";
 import router from "../../router";
 import localStorage from '../../utils/cache'
+import {get,post} from '../../service/request'
 export default {
   setup() {
     const store = useStore();
+    // const userlist = ref(null)
     let queryInfo = reactive({
       pagenum: 1, //当前页数
       pagesize: 2, //可以显示的条数
@@ -88,6 +90,7 @@ export default {
     //发送请求,获取页面数据
     const getuserInfo = () => {
       console.log(111);
+      
       store.dispatch("UserInfoAcction", { ...queryInfo });
       // 更新用户列表
       userlist = store.state.userInfo
@@ -99,6 +102,7 @@ export default {
     }
     //监听pagesize改变
     const handleSizeChange = (newsize) => {
+      
       queryInfo.pagesize = newsize;
       getuserInfo();
     };
@@ -113,6 +117,9 @@ export default {
       localStorage.setCache('evalateStudent_num',student_num)
       router.push("../appraise");
     };
+    // onCreate(() => {
+    //   getuserInfo()
+    // })
     return {
       userlist,
       queryInfo,
