@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-card class="box-card">
-      <el-input type="textarea" :rows="7" placeholder="请输入你的评价" maxlength="300"  v-model="appraise" style="font-size: 17px;">
+      <el-input type="textarea" :rows="7" placeholder="请输入你的评价" maxlength="300"  v-model="apprasieMsg.appraise" style="font-size: 17px;">
       </el-input>
       <div class="score">
         <div>
-          打分：<el-input v-model="score"></el-input>
+          打分：<el-input v-model="apprasieMsg.score" type="number"></el-input>
         </div>
         <el-button @click="admitAppraise">提交</el-button>
       </div>
@@ -30,22 +30,8 @@ export default {
     })
     console.log(apprasieMsg)
     const admitAppraise = ()=>{
-      // confirm('提交评价, 是否继续?', '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     center: true,
-      //   }).then(() => {
-      //       message({
-      //         type: 'success',
-      //         message: '提交成功！',
-      //       })
-      //     }).catch(() => {
-      //       message({
-      //         type: 'info',
-      //         message: '取消提交！',
-      //       })
-      //     })
       store.dispatch("appraiseAction",{...apprasieMsg})
+      // 提交完信息置空
       apprasieMsg.appraise = '',
       apprasieMsg.score = ''
     }

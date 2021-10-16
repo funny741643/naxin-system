@@ -4,14 +4,14 @@ import localStorage from '../utils/cache'
 // axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 // axios.defaults.headers.post['Content-Type'] = '"application/x-www-form-urlencoded"'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-
+axios.defaults.headers['Authorization'] = 'Bearer' +' '+ localStorage.getCache('token') || ''
 
 // 添加请求拦截器
 axios.interceptors.request.use(
      function (config) {
          // 在发送请求之前做些什么
           /* 给请求添加token   isloading动画 */
-         axios.defaults.headers['authorization'] = localStorage.getCache('token') || ''
+        //  axios.defaults.headers['authorization'] = localStorage.getCache('token') || ''
          return config;
      },
      function (error) {

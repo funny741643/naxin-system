@@ -24,7 +24,7 @@ const interviewed = {
             }
             payload.admin_name = localStorage.getCache("admin_name")
             console.log(payload)
-            axios.post(`/appraise/${payload.studentName}`,prams).then(res=>{
+            axios.post(`api/admin/appraise/${payload.studentName}`,prams).then(res=>{
                 if(res.status === 200){
                     ElMessage.success({
                         message: '提交成功',

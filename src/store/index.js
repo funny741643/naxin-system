@@ -1,9 +1,5 @@
 import {createStore} from 'vuex'
 import login from './login/login.js'
-import userInfo from './userInfo/userInfo'
-import accredit from './accredit/accredit'
-import interviewing from './userInfo/interviewing'
-import interviewed from './userInfo/interviewed'
 import appraise from './appraise/appraise'
 const store = createStore({
     state:()=>{
@@ -17,10 +13,6 @@ const store = createStore({
     actions:{},
     modules:{
         login,
-        userInfo,
-        accredit,
-        interviewing,
-        interviewed,
         appraise
     }
 })

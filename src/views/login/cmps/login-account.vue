@@ -29,6 +29,7 @@ export default {
             admin_password: localCache.getCache('admin_password')?localCache.getCache('admin_password'):''
         })
         const formRef = ref()
+        // 验证规则
         const rules = {
             admin_name:[{
                 required:true,
@@ -54,22 +55,23 @@ export default {
                 trigger:'blur'
             }] 
         }
-
+       
         const loginAction = (isKeepPassword)=>{
             console.log('account开始登录')
             formRef.value.validate((valid)=>{
                 console.log(valid)
-                localCache.setCache('admin_name',account.admin_name)
                 if(valid){
-                    // console.log('store.state',store)
                     // 记住密码
                     if(isKeepPassword){
+                        localCache.setCache('admin_name',account.admin_name)
                         localCache.setCache('admin_num',account.admin_num)
                         localCache.setCache('admin_password',account.admin_password)
+                        localCache.setCache('iskeepPW',isKeepPassword)
                     }else{
                         localCache.delate('admin_name')
                         localCache.delate('admin_num')
                         localCache.delate('admin_password')
+                        localCache.delate('iskeepPW',isKeepPassword)
                     }
                     // 登录验证
                     store.dispatch('accoutLoginAction',{...account})
@@ -81,8 +83,7 @@ export default {
             account,
             rules,
             formRef,
-            loginAction
-
+            loginAction,
         }
     }
 }

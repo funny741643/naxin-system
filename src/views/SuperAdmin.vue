@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <!-- <el-input> </el-input> <el-button>搜索</el-button> -->
-      <el-table :data="adminlist" :border="true" style="font-size: 14px">
+      <el-table :data="adminInfo.list" :border="true" style="font-size: 14px">
         <el-table-column label="学号" prop="admin_num"></el-table-column>
         <el-table-column label="姓名" prop="admin_name"></el-table-column>
         <el-table-column label="方向" prop="role">
@@ -12,7 +12,7 @@
               default-first-option
             >
               <el-option
-                v-for="(item, index) in groups"
+                v-for="(item, index) in selectGroups"
                 :key="index"
                 :label="item"
                 :value="item"
@@ -21,6 +21,7 @@
             </el-select>
           </template>
         </el-table-column>
+        <!-- 点击文字改变 -->
         <el-table-column label="授权">
           <template #default="scope">
             <el-button @click="changePower(scope.row)">{{
@@ -35,10 +36,10 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="queryInfo.pagenum"
-          :page-sizes="[1, 5, 10]"
+          :page-sizes="[1, 2, 5, 10]"
           :page-size="queryInfo.pagesize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
+          :total="adminInfo.total"
         >
         </el-pagination>
       </div>
@@ -48,48 +49,102 @@
 
 <script>
 import { computed, ref, reactive } from "@vue/reactivity";
-import { useStore } from "vuex";
-// import router from "../router";
+import { ElMessage } from "element-plus";
+import axios from "./../service/request";
+import { nextTick, onMounted } from '@vue/runtime-core';
 export default {
   setup() {
-    const store = useStore();
     const queryInfo = reactive({
       pagenum: 1, //当前页数
       pagesize: 2, //可以显示的条数
     });
-    const groups = ["前端组", "后台组", "go组", "服务端", "机器学习"];
-    let isCommission = ref("去授权");
-    const role = ref();
-    const total = store.state.adminTotal;
-    let adminlist = [
-      {
-        admin_num: "04192106",
-        admin_name: "llr",
-        role: "",
-      },
-      {
-        admin_num: "04192106",
-        admin_name: "llr",
-        role: "",
-      },
-      {
-        admin_num: "04192106",
-        admin_name: "llr",
-        role: "",
-      },
+    const selectGroups = [
+      "前端",
+      "go",
+      "Java",
+      "服务端",
+      "机器学习",
     ];
-    // let adminlist = store.state.admimInfo
+    let isCommission = ref("去授权");
+    let adminRole = ref();
+    const adminInfo = reactive({
+      list: [],
+      total: "",
+    });
+    const groups = [
+      "无（未选择、未赋权）",
+      "超级管理员",
+      "前端",
+      "go",
+      "Java",
+      "服务端",
+      "机器学习",
+    ];
     // 更新adminlist
     const updateAdminInfo = () => {
-      // 这里触发的是授权的请求，感觉有点不太对？？？？？？？？？？
-      store.dispatch("accreditAction");
-      adminlist = store.state.admimInfo;
+      console.log("updateAdminInfo");
+      axios
+        .get(
+          `api/admin/superadmin/getadminpage?pagesize=${queryInfo.pagesize}&pagenum=${queryInfo.pagenum}`
+        )
+        .then((adminInfoRes) => {
+          console.log(adminInfoRes);
+          if (adminInfoRes.status == 200) {
+            adminInfo.total = adminInfoRes.total;
+
+            adminInfo.list = adminInfoRes.admins;
+            adminInfo.list.forEach((item) => {
+              item.role = groups[item.role];
+            });
+            console.log("adminInfo.list", adminInfo.list);
+
+            // 自己的方法
+            // adminInfo.list = JSON.parse(JSON.stringify(adminInfoRes.admins));
+            // console.log(adminInfo.list);
+            // for (let i = 0; i < adminInfoRes.total; i++) {
+            //   for (let j = 0; i < groups.length; j++) {
+            //     if (j == adminInfo.list[i].role) {
+            //       adminInfo.list[i].role = groups[j];
+            //     }
+            //   }
+            // }
+          }
+        });
     };
+    onMounted(() => {
+      updateAdminInfo()
+    })
     // 超管授权，改变管理员组别
+    // const changePower = async (adminMg) => {
     const changePower = (adminMg) => {
       isCommission = "已授权";
-      console.log(isCommission);
-      store.dispatch("changePowerAction", { ...adminMg });
+      console.log({ ...adminMg });
+      groups.filter((item,index)=>{
+        if(item == adminMg.role){
+          adminRole = index
+        }
+      })
+      const params = {
+        admin_num: adminMg.admin_num,
+        role: adminRole,
+      };
+      axios
+        .post(`api/admin/superadmin/changepower`, params)
+        .then((changePowerRes) => {
+          console.log(changePowerRes);
+          if (changePowerRes.status == 200) {
+            ElMessage.warning({
+              message: "授权成功",
+              type: "success",
+            });
+            location.reload();
+          } else {
+            ElMessage.warning({
+              message: "授权失败",
+              type: "warning",
+            });
+          }
+        });
     };
     //监听pagesize改变
     const handleSizeChange = (newsize) => {
@@ -98,16 +153,16 @@ export default {
     };
     //当前页数的改变
     const handleCurrentChange = (newnum) => {
+      console.log('aaa')
       queryInfo.pagenum = newnum;
       updateAdminInfo();
     };
     return {
-      adminlist,
+      adminInfo,
       queryInfo,
-      total,
       isCommission,
-      role,
-      groups,
+      adminRole,
+      selectGroups,
       updateAdminInfo,
       handleSizeChange,
       handleCurrentChange,

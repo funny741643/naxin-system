@@ -7,10 +7,10 @@
       <el-form-item label="账号" prop="admin_num">
         <el-input v-model="account.admin_num"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="admin_password">
+      <el-form-item label="密码" prop="admin_password" type="password">
         <el-input v-model="account.admin_password"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="SurePassword">
+      <el-form-item label="确认密码" prop="SurePassword" type="password">
         <el-input v-model="account.SurePassword"></el-input>
       </el-form-item>
     </el-form>
@@ -24,7 +24,7 @@ import { ref } from "vue";
 export default {
   setup() {
     const store = useStore();
-    const account = reactive({
+    let account = reactive({
       admin_name: "",
       admin_num: "",
       admin_password: "",
@@ -38,7 +38,6 @@ export default {
         callback()
       }
     };
-
     let rules = {
       admin_name: [
         {
@@ -84,11 +83,19 @@ export default {
       ],
     };
 
+    const resetAccount = ()=>{
+      account.admin_name = '';
+      account.admin_num= "";
+      account.admin_password= "";
+      account.SurePassword=""
+    };
+
     const registerAciton = () => {
       formRef.value.validate((valid) => {
         if (valid) {
-          console.log(valid)
+          console.log('register',valid)
           store.dispatch("registerFun", { ...account });
+          resetAccount()
         }
       });
     };

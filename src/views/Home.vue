@@ -69,16 +69,15 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, ref, reactive, } from "vue";
 import { useRoute } from "vue-router";
 import router from "../router";
 import localCache from "../utils/cache";
-import { useStore } from "vuex";
-
+import axios from "./../service/request";
+import { ElMessage } from "element-plus";
 export default {
   setup() {
-    const store = useStore();
-    const items = [
+    let items = [
       {
         icon: "el-icon-location",
         index: "/user",
@@ -105,44 +104,60 @@ export default {
         title: "新成员信息",
       },
     ];
-
     const route = useRoute();
     const name = localCache.getCache("admin_name");
+    // 权限
+    let power = ref(null);
+    // 退出登录
     const backlogin = () => {
       console.log(route);
       router.replace("/login");
     };
+    const params = reactive({
+      pagesize: 5,
+      pagenum: 1,
+    });
     // 授权操作
+    // const accredit = async () => {
     const accredit = () => {
-      console.log("accredit");
-      store.dispatch("accreditAction");
-      if (store.state.power) {
-        items.push({
-          icon: "el-icon-document",
-          index: "/SuperAdmin",
-          title: "管理员信息",
+      axios
+        .get(
+          `api/admin/superadmin/getadminpage?pagesize=${params.pagesize}&pagenum=${params.pagenum}`
+        )
+        .then((accreditRes) => {
+          console.log(accreditRes);
+          console.log(power);
+          if (accreditRes.status !== 200 && accreditRes.status === 1008) {
+            ElMessage.warning({
+              message: "抱歉，你没有权限！正在授权，请稍等",
+              type: "warning",
+            });
+            console.log("没有权限");
+          } else {
+            power = accreditRes.power;
+            if (power) {
+              console.log("success", power);
+              items.push({
+                icon: "el-icon-document",
+                index: "/SuperAdmin",
+                title: "管理员信息",
+              });
+              // router.push("/superadmin");
+              router.replace("/superadmin");
+            }
+          }
         });
-        router.push('/superadmin')
-      }
     };
 
     const onRoutes = computed(() => {
       return route.path;
     });
 
-    // const testRequest = () => {
-    //   axios.get("/api/users").then((res) => {
-    //     console.log(res);
-    //   });
-    // };
-
-    // onMounted(() => {
-    //   testRequest();
-    // });
-
     return {
       items,
       name,
+      power,
+      params,
       onRoutes,
       backlogin,
       accredit,
